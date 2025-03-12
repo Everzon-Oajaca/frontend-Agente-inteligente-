@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Agente Inteligente</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="chat-container">
+        <div class="chat-box" id="chat-box"></div>
+        <div class="chat-input">
+            <input type="text" id="pregunta" placeholder="Escribe un mensaje..." onkeypress="handleKeyPress(event)">
+            <button onclick="consultarPregunta()">Enviar</button>
+        </div>
+        <div class="input-container hidden" id="respuesta-container">
+            <label for="nueva-respuesta">El agente no conoce esta respuesta. Puedes registrarla:</label>
+            <input type="text" id="nueva-respuesta" placeholder="Escribe la respuesta...">
+            <div class="buttons">
+                <button onclick="registrarRespuesta()">Guardar Respuesta</button>
+                <button class="cancel-button" onclick="cancelarRegistro()">Cancelar</button>
+            </div>
+        </div>
+    </div>
+    
+    <script src="./respuestaCortesia.js"></script>
+    <script src="./chat.js"></script>
+</body>
+</html>
