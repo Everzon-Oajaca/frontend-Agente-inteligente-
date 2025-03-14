@@ -8,13 +8,14 @@
 </head>
 <body>
     <div class="chat-container">
+        <h1 class="tech-title">Agente Inteligente</h1>
         <div class="chat-box" id="chat-box"></div>
         <div class="chat-input">
             <input type="text" id="pregunta" placeholder="Escribe un mensaje..." onkeypress="handleKeyPress(event)">
             <button onclick="consultarPregunta()">Enviar</button>
         </div>
         <div class="input-container hidden" id="respuesta-container">
-            <label for="nueva-respuesta">El agente no conoce esta respuesta. Puedes registrarla:</label>
+            <label for="nueva-respuesta">No tengo una respuesta para esa pregunta en este momento. ¿Podrías ayudarme a aprenderla?</label>
             <input type="text" id="nueva-respuesta" placeholder="Escribe la respuesta...">
             <div class="buttons">
                 <button onclick="registrarRespuesta()">Guardar Respuesta</button>
