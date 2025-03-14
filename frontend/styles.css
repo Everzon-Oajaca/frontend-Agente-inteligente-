@@ -10,16 +10,41 @@ body {
     height: 100vh;
 }
 
+/* Título Tecnológico Animado */
+.tech-title {
+    font-size: 24px;
+    text-align: center;
+    color: #0A84FF;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    animation: glitch 1.5s infinite alternate;
+}
+
+/* Efecto Glitch */
+@keyframes glitch {
+    0% {
+        text-shadow: 2px 2px 5px rgba(10, 132, 255, 0.8), -2px -2px 5px rgba(255, 0, 150, 0.8);
+    }
+    50% {
+        text-shadow: -2px -2px 5px rgba(10, 132, 255, 0.8), 2px 2px 5px rgba(255, 0, 150, 0.8);
+    }
+    100% {
+        text-shadow: 2px -2px 5px rgba(10, 132, 255, 0.8), -2px 2px 5px rgba(255, 0, 150, 0.8);
+    }
+}
+
 /* Contenedor del Chat */
 .chat-container {
     width: 90%;
     max-width: 700px;
     background: #444654; /* Fondo del chat */
     border-radius: 12px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 4px 10px rgb(235, 232, 232);
     overflow: hidden;
     display: flex;
     flex-direction: column;
+    padding: 20px;
 }
 
 /* Caja de Mensajes */
