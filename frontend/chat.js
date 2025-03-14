@@ -21,6 +21,13 @@ function consultarPregunta() {
     document.getElementById('pregunta').value = '';
     ultimaPregunta = pregunta;
 
+    // Detectar si el usuario pregunta por la hora, fecha o día
+    const respuestaTiempo = obtenerTiempo(pregunta);
+    if (respuestaTiempo) {
+        agregarMensaje(respuestaTiempo, 'bot-message');
+        return;
+    }
+
     // Verificar si la pregunta ya tiene una respuesta en el historial
     if (historialPreguntas[pregunta]) {
         const respuestaAnterior = historialPreguntas[pregunta];
@@ -65,6 +72,33 @@ function consultarPregunta() {
     });
 }
 
+// Función para detectar preguntas sobre la hora, el día o la fecha actual
+function obtenerTiempo(pregunta) {
+    const fechaActual = new Date();
+    const hora = fechaActual.getHours().toString().padStart(2, '0');
+    const minutos = fechaActual.getMinutes().toString().padStart(2, '0');
+    const segundos = fechaActual.getSeconds().toString().padStart(2, '0');
+    const diaSemana = ["domingo", "lunes", "martes", "miércoles", "jueves", "viernes", "sábado"][fechaActual.getDay()];
+    const dia = fechaActual.getDate();
+    const mes = ["enero", "febrero", "marzo", "abril", "mayo", "junio", "julio", "agosto", "septiembre", "octubre", "noviembre", "diciembre"][fechaActual.getMonth()];
+    const año = fechaActual.getFullYear();
+
+    if (pregunta.includes("hora") || pregunta.includes("qué hora es")) {
+        return `🕒 La hora actual es ${hora}:${minutos}:${segundos}.`;
+    }
+    if (pregunta.includes("qué día es") || pregunta.includes("qué día estamos") || pregunta.includes("día actual")) {
+        return `📅 Hoy es ${diaSemana}.`;
+    }
+    if (pregunta.includes("fecha") || pregunta.includes("cuál es la fecha de hoy")) {
+        return `📆 La fecha de hoy es ${dia} de ${mes} del ${año}.`;
+    }
+    if (pregunta.includes("año") || pregunta.includes("qué año es")) {
+        return `🌍 Estamos en el año ${año}.`;
+    }
+
+    return null; // No es una pregunta relacionada con el tiempo
+}
+
 function registrarRespuesta() {
     const respuesta = document.getElementById('nueva-respuesta').value.trim();
     if (!respuesta) {
@@ -106,4 +140,5 @@ function agregarMensaje(texto, clase) {
     chatBox.scrollTop = chatBox.scrollHeight;
     return mensaje;
 }
+
 
