@@ -2,7 +2,8 @@
 
 const API_URL = 'https://agenteinteligente.onrender.com/api/preguntas';
 let ultimaPregunta = "";
-let historialPreguntas = {}; // Objeto para almacenar preguntas y respuestas previas
+
+
 
 function handleKeyPress(event) {
     if (event.key === 'Enter') {
@@ -20,20 +21,6 @@ function consultarPregunta() {
     agregarMensaje(pregunta, 'user-message');
     document.getElementById('pregunta').value = '';
     ultimaPregunta = pregunta;
-
-    // Detectar si el usuario pregunta por la hora, fecha o día
-    const respuestaTiempo = obtenerTiempo(pregunta);
-    if (respuestaTiempo) {
-        agregarMensaje(respuestaTiempo, 'bot-message');
-        return;
-    }
-
-    // Verificar si la pregunta ya tiene una respuesta en el historial
-    if (historialPreguntas[pregunta]) {
-        const respuestaAnterior = historialPreguntas[pregunta];
-        agregarMensaje(`Como te lo dije anteriormente, el significado de "${pregunta}" es🧐: ${respuestaAnterior}`, 'bot-message');
-        return;
-    }
 
     const respuestaCortesia = obtenerRespuestaCortesia(pregunta);
     if (respuestaCortesia) {
@@ -53,16 +40,12 @@ function consultarPregunta() {
     .then(response => response.json())
     .then(data => {
         document.getElementById('chat-box').removeChild(escribiendo);
+        agregarMensaje(data.respuesta || "No tengo una respuesta para esa pregunta.", 'bot-message');
 
-        if (data.respuesta) {
-            // Guardar en el historial solo si la respuesta es válida
-            historialPreguntas[pregunta] = data.respuesta;
-            agregarMensaje(data.respuesta, 'bot-message');
-            document.getElementById('respuesta-container').classList.add('hidden');
-        } else {
-            // Si no hay respuesta, preguntar nuevamente
-            agregarMensaje("No tengo una respuesta para esa pregunta. ¿Podrías ayudarme?", 'bot-message');
+        if (!data.respuesta) {
             document.getElementById('respuesta-container').classList.remove('hidden');
+        } else {
+            document.getElementById('respuesta-container').classList.add('hidden');
         }
     })
     .catch(error => {
@@ -88,10 +71,6 @@ function registrarRespuesta() {
         alert('Respuesta guardada con éxito.');
         document.getElementById('respuesta-container').classList.add('hidden');
         document.getElementById('nueva-respuesta').value = '';
-        
-        // Guardar la nueva respuesta en el historial
-        historialPreguntas[ultimaPregunta] = respuesta;
-        
         agregarMensaje(`Nueva respuesta guardada: ${respuesta}`, 'bot-message');
     })
     .catch(error => {
@@ -113,5 +92,3 @@ function agregarMensaje(texto, clase) {
     chatBox.scrollTop = chatBox.scrollHeight;
     return mensaje;
 }
-
-
