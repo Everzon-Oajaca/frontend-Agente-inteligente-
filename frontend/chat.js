@@ -1,6 +1,9 @@
+// const API_URL = 'http://localhost:8080/api/preguntas';
+
 const API_URL = 'https://agenteinteligente.onrender.com/api/preguntas';
 let ultimaPregunta = "";
-let ultimaRespuesta = "";
+
+
 
 function handleKeyPress(event) {
     if (event.key === 'Enter') {
@@ -17,13 +20,6 @@ function consultarPregunta() {
 
     agregarMensaje(pregunta, 'user-message');
     document.getElementById('pregunta').value = '';
-
-    // Si la pregunta es la misma que la última, responder con historial
-    if (pregunta === ultimaPregunta) {
-        agregarMensaje(`🔄 Como te dije anteriormente, lo que preguntaste fue: ❓"${ultimaPregunta}"\n✅ Y la respuesta es: 📝"${ultimaRespuesta}"`, 'bot-message');
-        return;
-    }
-
     ultimaPregunta = pregunta;
 
     const respuestaCortesia = obtenerRespuestaCortesia(pregunta);
@@ -44,8 +40,7 @@ function consultarPregunta() {
     .then(response => response.json())
     .then(data => {
         document.getElementById('chat-box').removeChild(escribiendo);
-        ultimaRespuesta = data.respuesta || "No tengo una respuesta para esa pregunta.";
-        agregarMensaje(ultimaRespuesta, 'bot-message');
+        agregarMensaje(data.respuesta || "No tengo una respuesta para esa pregunta.", 'bot-message');
 
         if (!data.respuesta) {
             document.getElementById('respuesta-container').classList.remove('hidden');
@@ -76,8 +71,7 @@ function registrarRespuesta() {
         alert('Respuesta guardada con éxito.');
         document.getElementById('respuesta-container').classList.add('hidden');
         document.getElementById('nueva-respuesta').value = '';
-        agregarMensaje(`Nueva respuesta guardada: "${respuesta}"`, 'bot-message');
-        ultimaRespuesta = respuesta; // Guardar la nueva respuesta en el historial
+        agregarMensaje(`Nueva respuesta guardada: ${respuesta}`, 'bot-message');
     })
     .catch(error => {
         console.error('Error:', error);
@@ -98,4 +92,5 @@ function agregarMensaje(texto, clase) {
     chatBox.scrollTop = chatBox.scrollHeight;
     return mensaje;
 }
+
 
